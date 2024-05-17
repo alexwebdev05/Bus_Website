@@ -2,23 +2,21 @@ Base principal
 ☐ Hacer la base del cliente sin entrar en detalle con las opciones (lo voy a hacer mientras hago un mapa)
 ☐ Hacer el primer mapa en 3D con Three.js
 
-Api y base de datos
-☐ Hacer una estructura de como se almacenaran los datos y que datos
+API y base de datos
+☐ Hacer una estructura de cómo se almacenarán los datos y qué datos
 ✔ Conectar la base de datos @done(24-05-17 14:17)
-☐ probar que todo tipo de informacion se puede recopilar correctamente
+☐ Probar que todo tipo de información se puede recopilar correctamente
 
 Una vez terminado lo anterior
 ☐ Hacer los horarios de los autobuses
-☐ hacer un relog en la api que calcule las horas a las que pasa el autobus y en que parada
+☐ Hacer un reloj en la API que calcule las horas a las que pasa el autobús y en qué parada
 
 ☐ Definir las paradas en el mapa
-☐ Definir la ruta que tomara
+☐ Definir la ruta que tomará
 
-☐ Hacer la manera en la que sera trackeado el autobus (simulacion sin gps ya que esta pagina sera ficticea)
+☐ Hacer la manera en la que será trackeado el autobús (simulación sin GPS ya que esta página será ficticia)
 
-☐ Creacion de billetes, cuando este completado lo anterior se pensara en el proceso
-
+☐ Creación de billetes, cuando esté completado lo anterior se pensará en el proceso
 
 Posibles cambios al finalizar todo lo principal
-☐ Apartado de exposicion de autobuses
-
+☐ Apartado de exposición de autobuses
