@@ -11,6 +11,11 @@ La base de datos será creada en MongoDB por su escalabilidad y por la posibilid
 
 Para hacer el modelo 3D del mapa usaré Three.js, ya que actualmente es el más usado.
 
+Para hacer el movimiento del bus usare yuka, la cual es una ia para que el bus pueda seguir la ruta que le indiquemos.
+
+Añadire traducción automática segun el idioma del navegador.
+
 # Conclusión
 Este proyecto será únicamente para mi crecimiento personal y para estar más cerca de ser un desarrollador web full stack. Nada de lo que aparezca en la página será real, incluidas las imágenes (si las hay), ya que serán creadas por mí o con la IA de ChatGPT 3.5.
-Traducción automática segun el idioma del navegador.
+
+Una ves terminado el proyecto este readme sera todalmente modificado y actualizado. La información que salga actualmente no tiene porque ajustarse estrictamente al resultado final.
