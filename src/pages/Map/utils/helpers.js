@@ -1,9 +1,9 @@
 import * as THREE from "three";
 
-export function topView(camera, y) {
+export function topView(camera, latitude) {
     camera.position.z = 0;
     camera.position.x = 0;
-    camera.position.y = y;
+    camera.position.y = latitude;
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 }
 
