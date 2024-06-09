@@ -19,7 +19,7 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (message) => {
 
-      console.log('[Server] Received message: %s', message);
+      console.log(message);
 
     // Broadcast to everyone
     wss.clients.forEach(function each(client) {

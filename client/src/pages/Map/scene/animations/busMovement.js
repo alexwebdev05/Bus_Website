@@ -1,84 +1,48 @@
-// import * as THREE from 'three';
+import Html5Websocket from 'html5-websocket';
+import ReconnectingWebSocket from 'reconnecting-websocket';
 
-// const clock = new THREE.Clock();
+export function busMovement(bus) {
 
-export function busMovement(bus, curve, renderer, camera, scene, position) {
-    // function animate() {
-    //     requestAnimationFrame(animate);
+    let host = 'localhost'
+    let port = '8080'
+    const options = { constructor: Html5Websocket }
+    const rec_ws = new ReconnectingWebSocket('ws://' + host + ':' + port + '/ws', undefined, options);
+    rec_ws.timeout = 1000;
 
-    //     const elapsedTime = clock.getElapsedTime();
-
-    //     // Normalizar el tiempo para que esté en el rango [0, 1]
-    //     const t = (elapsedTime % 10) / 10;
-
-    //     // Obtener la posición y la tangente en el punto t de la curva
-    //     const point = curve.getPointAt(t);
-    //     const tangent = curve.getTangentAt(t);
-
-    //     if (point && tangent) {
-    //         // Actualizar la posición del autobús
-    //         bus.position.set(point.x, point.y, point.z);
-
-    //         // Crear una matriz de orientación a partir de la tangente
-    //         const quaternion = new THREE.Quaternion();
-    //         quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), tangent);
-
-    //         // Aplicar la rotación al autobús
-    //         bus.quaternion.copy(quaternion);
-    //     } else {
-    //         clock.start();
-    //     }
-
-    //     renderer.render(scene, camera);
-    // }
-    // animate()  
-
-    let working = true;
     function animate() {
-        if (!working) return;
 
-        bus.position.set(-1.7629743987277595, 0.35, -0.25585369174495254);
+        // Websocket
+        rec_ws.addEventListener('open', () => {
+            console.log('[Client] Connected to websocket.')
+            rec_ws.send('Client is getting bus position.')
+        })
 
-        console.log(position.data)
+        rec_ws.addEventListener('message', (event) => {
+            try {
+                const message = JSON.parse(event.data);
+                
+                if (message.type === 'busState') {
+                const position = message.data.position;
+                const quaternion = message.data.quaternion;
+                
+                bus.position.set(position[0], position[1], position[2]);
+                bus.quaternion.set(quaternion[0], quaternion[1], quaternion[2], quaternion[3]);
+                }
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                console.error('Mensaje que causó el error:', event.data);
+            }
+        })
 
-        // bus.position.set(position.x, position.y, position.z);
+        rec_ws.addEventListener('close', () => {
+            console.log('[Client] Connection closed.')
+        })
 
-
-        // // From point1 to point2
-        // function point1ToPoint2() {
-        //     if (!working) return;
-            
-        //     requestAnimationFrame(point1ToPoint2)
-            
-        //     // Time clock
-        //     const elapsedTime = clock.getElapsedTime();
-
-        //     // Speed
-        //     const t = (elapsedTime % 10) / 10;
-
-        //     const point = curve.getPointAt(t);
-        //     const tangent = curve.getTangentAt(t);
-
-        //     if (point && tangent) {
-        //         bus.position.set(point.x, point.y, point.z);
-
-        //         const quaternion = new THREE.Quaternion();
-        //         quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), tangent);
-
-        //         bus.quaternion.copy(quaternion);
-        //     } else {
-        //         clock.start();
-        //     }
-
-        //     renderer.render(scene, camera);
-        // }
-        // point1ToPoint2()
+        rec_ws.onerror = (err) => {
+            if ( err.code == 'EHOSTDOWN' ) {
+            console.log('[Client] Error: Server is down.')
+            }
+        }
     }
     animate()
-    // Detener la animación después de 3 segundos
-    setTimeout(() => {
-        working = false;
-    }, 30000);
-    
-    
 }
