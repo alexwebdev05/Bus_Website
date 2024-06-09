@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus State</title>
+</head>
+<body>
+    <h1>Bus State</h1>
+    <script>
+        const busState = {
+            position: <%= JSON.stringify(busPosition) %>,
+            quaternion: <%= JSON.stringify(busQuaternion) %>
+        };
+        console.log('Bus Position:', busState.position);
+        console.log('Bus Quaternion:', busState.quaternion);
+    </script>
+</body>
+</html>
