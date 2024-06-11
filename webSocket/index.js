@@ -1,39 +1,31 @@
 const express = require('express');
-const http = require('http');
 const WebSocket = require('ws');
 const SocketServer = require('ws').Server;
-const { v4: uuidv4 } = require('uuid');
 const THREE = require('three');
 const path = require('path');
 
 const server = express().listen(8080);
 const wss = new SocketServer({ server });
+
 wss.on('connection', (ws) => {
   console.log('[Server] Client was connected.');
-
-
 
   ws.on('close', () => {
     console.log('[Server] Client disconnected.');
   })
 
   ws.on('message', (message) => {
-
       console.log(message);
 
-    // Broadcast to everyone
     wss.clients.forEach(function each(client) {
       if ( client != ws && client.readyState === WebSocket.OPEN ) {
         client.send(message)
       }
     })
-
-
   });
-
 });
 
-// My imports
+// Objects
 const { createScene } = require('./src/scene/createScene');
 const { wayCubeLand } = require('./src/objects/wayCubeLand');
 
@@ -67,12 +59,19 @@ function broadcastBusState() {
 }
 
 // Bus movement
-const clock = new THREE.Clock();
+let time = 0;
+let moveing = true
 
 function busMovement() {
-  const elapsedTime = clock.getElapsedTime();
+  time += 0.02
+  const t = (time % 100) / 100;
 
-  const t = (elapsedTime % 10) / 10;
+  console.log(time)
+
+  if ( time >= 100 ) {
+    time = 0;
+    busStops()
+  }
 
   const point = curve.getPointAt(t);
   const tangent = curve.getTangentAt(t);
@@ -85,9 +84,79 @@ function busMovement() {
 
     busState.quaternion.copy(quaternion);
   } else {
-    clock.start();
+    time = 0
   }
-
   broadcastBusState();
+  
 }
-setInterval(busMovement, 100);
+
+moveingInterval = setInterval(busMovement, 20);
+
+
+
+// Paradas
+function busStops() {
+  setTimeout(() => {
+    moveing = false
+    console.log('Autobus parado')
+    clearInterval(moveingInterval)
+  
+    setTimeout(() => {
+      moveing = true
+      moveingInterval = setInterval(busMovement, 20);
+    }, 5000)
+  }, 24000)
+  
+  
+  
+  
+  setTimeout(() => {
+    moveing = false
+    console.log('Autobus parado')
+    clearInterval(moveingInterval)
+  
+    setTimeout(() => {
+      moveing = true
+      moveingInterval = setInterval(busMovement, 20);
+    }, 5000)
+  }, 52000)
+  
+  
+  
+  setTimeout(() => {
+    moveing = false
+    console.log('Autobus parado')
+    clearInterval(moveingInterval)
+  
+    setTimeout(() => {
+      moveing = true
+      moveingInterval = setInterval(busMovement, 20);
+    }, 5000)
+  }, 70500)
+  
+  
+  
+  setTimeout(() => {
+    moveing = false
+    console.log('Autobus parado')
+    clearInterval(moveingInterval)
+  
+    setTimeout(() => {
+      moveing = true
+      moveingInterval = setInterval(busMovement, 20);
+    }, 5000)
+  }, 93000)
+
+  setTimeout(() => {
+    moveing = false
+    console.log('Autobus parado')
+    clearInterval(moveingInterval)
+  
+    setTimeout(() => {
+      moveing = true
+      moveingInterval = setInterval(busMovement, 20);
+    }, 5000)
+  }, 120000)
+  
+}
+busStops()

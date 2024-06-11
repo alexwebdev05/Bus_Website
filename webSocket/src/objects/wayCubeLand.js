@@ -49,7 +49,7 @@ function wayCubeLand(scene) {
 
     curve.tension = 0.2;
 
-    const points = curve.getPoints(120);
+    const points = curve.getPoints(220);
 
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
