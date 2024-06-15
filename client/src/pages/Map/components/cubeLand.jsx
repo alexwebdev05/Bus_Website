@@ -45,7 +45,7 @@ const CubeLand = () => {
       createSignal(loader, scene, signals, new THREE.Vector3(0.4, 1.1, 2.05), new THREE.Vector3(0.5, 0.5, 0.5))
       createSignal(loader, scene, signals, new THREE.Vector3(1.44, 1.2, -1.08), new THREE.Vector3(0.5, 0.5, 0.5))
       createSignal(loader, scene, signals, new THREE.Vector3(-1.35, 1.2, -2.6), new THREE.Vector3(0.5, 0.5, 0.5))
-      createSignal(loader, scene, signals, new THREE.Vector3(-2.6, 1.2, -0.6), new THREE.Vector3(0.5, 0.5, 0.5))
+      // createSignal(loader, scene, signals, new THREE.Vector3(-2.6, 1.2, -0.6), new THREE.Vector3(0.5, 0.5, 0.5))
       createSignal(loader, scene, signals, new THREE.Vector3(0.3, 1.2, -0.38), new THREE.Vector3(0.5, 0.5, 0.5))
 
       wayCubeLand(scene)
