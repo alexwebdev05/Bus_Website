@@ -27,11 +27,10 @@ export function busMovement(bus) {
                 
                 bus.position.set(position[0], position[1], position[2]);
                 bus.quaternion.set(quaternion[0], quaternion[1], quaternion[2], quaternion[3]);
-                console.log(message)
                 }
             } catch (error) {
-                console.error('Error parsing JSON:', error);
-                console.error('Mensaje que causó el error:', event.data);
+                // console.error('Error parsing JSON:', error);
+                // console.error('Mensaje que causó el error:', event.data);
             }
         })
 

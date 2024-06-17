@@ -3,7 +3,10 @@ import * as THREE from "three";
 export function initLighting(scene) {
     const intensity = 5;
     const light = new THREE.DirectionalLight(0xffffff, intensity);
+    const light2 = new THREE.DirectionalLight(0x8C97CB, intensity);
     
-    light.position.set(2, 4, 2);
+    light.position.set(5, 4, 2);
+    light2.position.set(-5, 4, -2);
     scene.add(light);
+    scene.add(light2);
 }

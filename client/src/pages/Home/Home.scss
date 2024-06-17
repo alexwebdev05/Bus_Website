@@ -1,8 +1,8 @@
 :root {
     --color-main: red;
     --color-title: rgb(255, 255, 255);
-    --background-color1: #360068;
-    --background-color2: #2600af;
+    --background-color1: #f0fbff;
+    --background-color2: #e8e6ec; // Sin usar
     --default-shadow: rgba(0, 0, 0, 0.2);
 }
 
@@ -22,7 +22,7 @@ body {
     align-items: center;
 
     animation: bgColorMovement 10s ease-in-out infinite;
-    background: linear-gradient(20deg, var(--background-color1) 40%, var(--background-color2) 100%);
+    background-color: var(--background-color1);
 }
 
 main {

@@ -3,18 +3,18 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // Modules
-import { initOrbitControls } from '../controls/orbitControls';
-import { createScene } from '../scene/createScene';
-import { createRenderer } from '../scene/renderer'
-import { createCamera } from '../scene/camera';
-import { initLighting } from '../scene/lighting';
+import { initOrbitControls } from '../../controls/orbitControls';
+import { createScene } from '../../scene/createScene';
+import { createRenderer } from '../../scene/renderer'
+import { createCamera } from '../../scene/camera';
+import { initLighting } from '../../scene/lighting';
 // Models
-import { createMapCubeLand } from '../scene/objects/createMapCubeLand'
-import { wayCubeLand } from '../scene/objects/wayCubeLand'
-import { createSignal } from '../scene/objects/createSignal'
+import { createMapCubeLand } from '../../scene/objects/createMapCubeLand'
+import { wayCubeLand } from '../../scene/objects/wayCubeLand'
+import { createSignal } from '../../scene/objects/createSignal'
 // Helpers
-import { onWindowResize, addGridHelper, addAxisHelper } from '../utils/helpers'
-import { createBus } from '../scene/objects/createBus';
+import { onWindowResize, addGridHelper, addAxisHelper } from '../../utils/helpers'
+import { createBus } from '../../scene/objects/createBus';
 
 
 const CubeLand = () => {
