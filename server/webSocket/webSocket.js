@@ -37,10 +37,11 @@ function startWebSocketServer() {
     };
 
     // Send bus state to clients
-    function broadcastBusState() {
+    function broadcastBusState(hour) {
     const busData = {
         position: busState.position.toArray(),
         quaternion: busState.quaternion.toArray(),
+        startTime: hour
     };
     const message = JSON.stringify({
         type: 'busState',

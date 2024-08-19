@@ -3,51 +3,64 @@ const THREE = require('three');
 const { wayCubeLand } = require('../objects/wayCubeLand');
 const { createScene } = require('../scene/createScene');
 
-// Scene
+const scene = createScene();
+const curve = wayCubeLand(scene);
 
-
-// Curve
-
-
-let time = 0;
-let moveingInterval;
+const tripTime = 2;
+const tripTimeMil = tripTime * 60000;
+let moveInterval;
 
 function busMovement(busState, broadcastBusState) {
-    const scene = createScene();
-    const curve = wayCubeLand(scene);
+    
+    let startTime = new Date();
+    let endTime = new Date(startTime.getTime() + tripTimeMil);
+    let percentage = 0;
 
+    function adjustTime(hour, minute, second) {
+        // Ajustar los segundos
+        if (second >= 60) {
+            let extraMinutes = Math.floor(second / 60);
+            second = second % 60;
+            minute += extraMinutes;
+        }
+        
+        // Ajustar los minutos
+        if (minute >= 60) {
+            let extraHours = Math.floor(minute / 60);
+            minute = minute % 60;
+            hour += extraHours;
+        }
+    
+        return { hour, minute, second };
+    }
+
+    let hour = {
+        stop1: adjustTime(startTime.getHours(), startTime.getMinutes(), startTime.getSeconds()),
+        stop2: adjustTime(startTime.getHours(), startTime.getMinutes(), startTime.getSeconds() + 29),
+        stop3: adjustTime(startTime.getHours(), startTime.getMinutes(), startTime.getSeconds() + 56),
+        stop4: adjustTime(startTime.getHours(), startTime.getMinutes() + 1, startTime.getSeconds() + 11),
+        stop5: adjustTime(startTime.getHours(), startTime.getMinutes() + 1, startTime.getSeconds() + 32)
+    };
+    
     // Update bus position
     function updateBusPosition() {
-        // Time
-        let actualDate = new Date();
-        let actualMin = actualDate.getMinutes();
-        let actualSec = actualDate.getSeconds();
-        let actualMil = actualDate.getMilliseconds();
 
-        // Speed
-        time += 0.01;
-        const t = (time % 97) / 97;
+        let actualTime = Date.now();
 
-        if (( actualMin % 2 == 0 && actualSec == 24 && actualMil >= 500  ) ||
-            ( actualMin % 2 == 0 && actualSec == 52 ) ||
-            ( actualMin % 2 == 1 && actualSec == 26 && actualMil >= 100 ) ||
-            ( actualMin % 2 == 1 && actualSec == 53 )) {
-            console.log('autobus parado');
-            clearInterval(moveingInterval);
-            setTimeout(() => {
-                moveingInterval = setInterval(updateBusPosition, 10);
-            }, 5000)
-        }
+        if ( actualTime >= endTime ) {
+            clearInterval(moveInterval);
+            busMovement(busState, broadcastBusState);
+            return;
+        } else {
 
-        if ( actualMin % 2 == 0 && actualSec <= 1 && actualMil < 4 ) {
-                clearInterval(moveingInterval);
-                time = 0;
-                moveingInterval = setInterval(updateBusPosition, 10);
+            let spaceTime = actualTime - startTime;
+            percentage = spaceTime / tripTimeMil;
+
         }
 
         // Send position
-        const point = curve.getPointAt(t);
-        const tangent = curve.getTangentAt(t);
+        const point = curve.getPointAt(percentage);
+        const tangent = curve.getTangentAt(percentage);
 
         if (point && tangent) {
             busState.position.set(point.x, point.y, point.z);
@@ -59,9 +72,11 @@ function busMovement(busState, broadcastBusState) {
         } else {
             time = 0;
         }
-    broadcastBusState();   
+
+        
+    broadcastBusState(hour);   
     }
-    moveingInterval = setInterval(updateBusPosition, 10);
+    moveInterval = setInterval(updateBusPosition, 10);
 }
 
 module.exports = {
