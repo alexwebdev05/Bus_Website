@@ -1,11 +1,12 @@
 import * as THREE from 'three'
 
 export function createSignal(loader, scene, signals, position, scale) {
-    loader.load('src/pages/Map/assets/models/signal.glb', function(gltf) {
+    loader.load('models/signal.glb', function(gltf) {
         let signal = gltf.scene;
+        const emissiveColor = new THREE.Color(0xffffff);
         signal.traverse(function(child) {
             if (child.isMesh) {
-                child.material = new THREE.MeshBasicMaterial({ color: child.material.color });
+                child.material = new THREE.MeshStandardMaterial({color: child.material.color});
             }
         });
     
@@ -18,3 +19,4 @@ export function createSignal(loader, scene, signals, position, scale) {
         }
     );
 }
+

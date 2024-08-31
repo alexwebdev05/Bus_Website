@@ -27,18 +27,10 @@
     display: none;
 }
 
-
-
-
-
 * {
     margin: 0;
     padding: 0;
     font-family: 'poppins', sans-serif;
-}
-
-input:focus {
-    outline: none;
 }
 
 section:first-child {
@@ -62,6 +54,10 @@ hr {
     width: 20rem;
     padding: 2rem 4rem;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     border-radius: 1rem;
 
     color: white;
@@ -74,14 +70,6 @@ hr {
     font-weight: 800;
 }
 
-// City
-#mapButtons {
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 .maps {
     margin: 0 1rem;
@@ -95,30 +83,27 @@ hr {
     background-color: transparent;
 }
 
-// Date
-input[type="date"] {
-    border: none;
-    border-radius: 0.3rem;
+#buttonContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.stopButton {
     padding: 0.5rem 1rem;
-}
+    margin: 0.2rem;
 
-#date {
-    width: 100%;
+    font-weight: 600;
+    cursor: pointer;
 
-    display: flex;
-    justify-content: center;
-}
-
-// Hour
-input[type="time"] {
     border: none;
-    border-radius: 0.3rem;
-    padding: 0.5rem 3rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    transition-duration: 0.3s;
 }
 
-#hour {
-    display: flex;
-    justify-content: center;
+.stopButton:hover {
+    box-shadow: 0px 0px 10px 2px rgb(255, 255, 255, 0.5);
 }
 
 // Prediction
