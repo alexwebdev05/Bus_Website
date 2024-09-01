@@ -30,8 +30,8 @@ const CubeLand = () => {
       initLighting(scene);
       const controls = initOrbitControls(camera, renderer.domElement);
 
-      addGridHelper(scene);
-      addAxisHelper(scene);
+      // addGridHelper(scene);
+      // addAxisHelper(scene);
 
       onWindowResize(renderer, camera);
 
