@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import style from "./style.module.css";
 
 interface timesProps {
-    stops?: string[]; // Use primitive `string` type
-    hour?: (number: number, arrival: number) => string; // Function type
+    stops?: string[];
+    hour?: (number: number, arrival: number) => string;
     number: number;
 }
 
@@ -13,6 +13,26 @@ export default function StopListComponent({ stops = [], hour, number }: timesPro
     useEffect(() => {
         setShowTime(number !== 0);
     }, [number]);
+
+    function stopChanger(number: number) {
+
+        const visibleElement = document.getElementById(`stop${number}`);
+        console.log(visibleElement)
+
+        for (let i = 1; i <= 5; i++) {
+            const element = document.getElementById(`stop${i}`);
+            if (element) {
+               element.style.display = 'none';
+            }
+        }
+
+        // if (visibleElement) {
+        //     visibleElement.style.display = 'flex';
+        // }
+        
+
+        
+    }
 
     return (
         <div className={style[`stop${number + 1}`]}>

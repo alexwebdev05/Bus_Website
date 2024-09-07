@@ -3,7 +3,7 @@
 import StopListComponent from "./stopListComponent/StopListComponent"
 import startHour from "./startHour"
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import style from "./style.module.css";
 
@@ -32,7 +32,7 @@ const formatTime = ({hour, minute, second}: StopTimeProps) => {
 export default function RouterOptionBar({color1, color2}: colorProps) {
 
     const [busTime, setBusTime] = useState<BusTimeState>({});
-    const [stops, setStops] = useState<string[]>([]);
+    const [stops, setStop] = useState<string[]>([]);
 
     // UseEffects
     useEffect(() => {
@@ -43,14 +43,14 @@ export default function RouterOptionBar({color1, color2}: colorProps) {
     useEffect(() => {
         const newStops: string[] = [];
         for (let i = 1; i <= 5; i++) {
-          const stop = busTime[`stop${i}`];
-          if (stop) {
-            const stopTime = generateArrivalTime(stop);
-            newStops.push(...stopTime);
-          }
+            const stop = busTime[`stop${i}`];
+            if (stop) {
+                const stopTime = generateArrivalTime(stop);
+                newStops.push(...stopTime);
+            }
         }
-        setStops(newStops);
-      }, [busTime]);
+        setStop(newStops);
+    }, [busTime]);
 
     // Functions
     function generateArrivalTime(stop: StopTimeProps): string[] {
@@ -61,22 +61,6 @@ export default function RouterOptionBar({color1, color2}: colorProps) {
             formatTime({ ...stop, minute: stop.minute + 6 }),
             formatTime({ ...stop, minute: stop.minute + 8 })
         ];
-    }
-
-    function stopChanger(number: number) {
-
-        const visibleElement = document.getElementById(`stop${number}`);
-
-        for (let i = 1; i <= 5; i++) {
-            const element = document.getElementById(`stop${i}`);
-            if (element) {
-                element.style.display = 'none';
-            }
-        }
-
-        if (visibleElement) {
-            visibleElement.style.display = 'flex';
-        }
     }
 
     function resetDisplayF() {
@@ -128,8 +112,25 @@ export default function RouterOptionBar({color1, color2}: colorProps) {
         return `${restMinutes}:${formattedSeconds}`
     }
 
+    // Display arrive times
+    function stopChanger(number: number) {
+        
+    //     const visibleElement = document.getElementById(`stop${number}`);
+    //     console.log(visibleElement)
+    //     for (let i = 1; i <= 5; i++) {
+    //         const element = document.getElementById(`stop${i}`);
+    //         if (element) {
+    //             element.style.display = 'none';
+    //         }
+    //     }
+
+    //     if (visibleElement) {
+    //         visibleElement.style.display = 'flex';
+    //     }
+    }
+
     // Button style
-    function colorBlue(button: number) {
+    // function colorBlue(button: number) {
         // for (let i = 1; i <= 5; i++) {
         //     const actualButton = document.getElementsByClassName(`button${i}`);
         //     const actualButtonHtml = actualButton[0] as HTMLElement;
@@ -158,30 +159,35 @@ export default function RouterOptionBar({color1, color2}: colorProps) {
 
         
 
-        for ( let i = 0; i <= 5; i++ ) {
-            const elements = document.getElementsByClassName(`button${i}`)[0] as HTMLElement;
+    //     for ( let i = 0; i <= 5; i++ ) {
+    //         const buttonRef = useRef<HTMLButtonElement>(null);
+    //         const elements = document.getElementsByClassName(`style.button${i}`)[0] as HTMLElement;
 
-            if (elements) {
-                const color = window.getComputedStyle(elements).color;
-                if (color === 'rgb(255, 255, 255)') {
-                    elements.style.backgroundColor = 'white';
-                    elements.style.border = '2px solid rgba(165, 165, 165, 0.5)';
-                    elements.style.color = 'black';
-                }
-            }
+    //         if (elements) {
+    //             const color = window.getComputedStyle(elements).color;
+    //             if (color === 'rgb(255, 255, 255)') {
+    //                 elements.style.backgroundColor = 'white';
+    //                 elements.style.border = '2px solid rgba(165, 165, 165, 0.5)';
+    //                 elements.style.color = 'black';
+    //             }
+    //         }
 
-            const changedElement = document.getElementsByClassName(`button${button}`)[0] as HTMLElement
+    //         const changedElement = document.getElementsByClassName(`style.button${button}`);
+    //         let elementHTML = changedElement[0] as HTMLElement
 
-            console.log(document.getElementsByClassName(`button${button}`))
+    //         console.log(buttonRef.current)
 
-            if (changedElement) {
-                changedElement.style.backgroundColor = 'white';
-                changedElement.style.border = '2px solid rgba(165, 165, 165, 0.5)';
-                changedElement.style.color = 'black';
-            }
-        }
+    //         if (buttonRef.current) {
+    //             console.log('color')
+    //             buttonRef.current.style.backgroundColor = 'blue';
+    //             buttonRef.current.style.border = '2px solid rgba(165, 165, 165, 0.5)';
+    //             buttonRef.current.style.color = 'black';
+    //         } else {
+    //             console.log('elementHTML don not found: ')
+    //         }
+    //     }
 
-    }
+    // }
 
     // HTML
     return (
@@ -192,23 +198,25 @@ export default function RouterOptionBar({color1, color2}: colorProps) {
             {/* Buttons */}
             <div className={style.contentContainer}>
                 <div className={style.buttonContainer}>
-                    <button className={`${style.stopButton} ${style.button1}`} onClick={() => {stopChanger(1), colorBlue(1)}}>Parada 1</button>
-                    <button className={`${style.stopButton} ${style.button2}`} onClick={() => {stopChanger(2), colorBlue(2)}}>Parada 2</button>
-                    <button className={`${style.stopButton} ${style.button3}`} onClick={() => {stopChanger(3), colorBlue(3)}}>Parada 3</button>
-                    <button className={`${style.stopButton} ${style.button4}`} onClick={() => {stopChanger(4), colorBlue(4)}}>Parada 4</button>
-                    <button className={`${style.stopButton} ${style.button5}`} onClick={() => {stopChanger(5), colorBlue(5)}}>Parada 5</button>
+                    <button className={`${style.stopButton, style.button1}`} onClick={() => {stopChanger(1)}}>Parada 1</button>
+                    <button className={`${style.stopButton}`} id="button2" onClick={() => {stopChanger(2)}}>Parada 2</button>
+                    <button className={`${style.stopButton}`} id="button3" onClick={() => {stopChanger(3)}}>Parada 3</button>
+                    <button className={`${style.stopButton}`} id="button4" onClick={() => {stopChanger(4)}}>Parada 4</button>
+                    <button className={`${style.stopButton}`} id="button5" onClick={() => {stopChanger(5)}}>Parada 5</button>
                 </div>
                 
 
                 {/* Prediction */}
                 <section className={style.predictionContainer}>
 
-                    <StopListComponent stops={stops} hour={getHour} number={0} />
-                    <StopListComponent stops={stops} hour={getHour} number={1} />
-                    <StopListComponent stops={stops} hour={getHour} number={2} />
-                    <StopListComponent stops={stops} hour={getHour} number={3} />
-                    <StopListComponent stops={stops} hour={getHour} number={4} />
-
+                    {Array.from({ length: 5 }, (_, index) => (
+                    <StopListComponent
+                        key={index}
+                        stops={stops}
+                        hour={getHour}
+                        number={index}
+                    />
+                    ))}
                 </section>
             </div>
 
