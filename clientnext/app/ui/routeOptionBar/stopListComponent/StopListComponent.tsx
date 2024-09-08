@@ -5,37 +5,20 @@ interface timesProps {
     stops?: string[];
     hour?: (number: number, arrival: number) => string;
     number: number;
+    isActive: boolean;
 }
 
-export default function StopListComponent({ stops = [], hour, number }: timesProps) {
+export default function StopListComponent({ stops = [], hour, number, isActive }: timesProps) {
     const [showTime, setShowTime] = useState(true);
 
     useEffect(() => {
         setShowTime(number !== 0);
     }, [number]);
 
-    function stopChanger(number: number) {
-
-        const visibleElement = document.getElementById(`stop${number}`);
-        console.log(visibleElement)
-
-        for (let i = 1; i <= 5; i++) {
-            const element = document.getElementById(`stop${i}`);
-            if (element) {
-               element.style.display = 'none';
-            }
-        }
-
-        // if (visibleElement) {
-        //     visibleElement.style.display = 'flex';
-        // }
-        
-
-        
-    }
+    
 
     return (
-        <div className={style[`stop${number + 1}`]}>
+        <div className={`${style.container} ${isActive ? style.active : style.inactive}`}>
             <h2>Next arrivals</h2>
             <section className={style.timesContainer}>
                 <div className={style.awaitTime}>

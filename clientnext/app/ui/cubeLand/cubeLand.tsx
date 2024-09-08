@@ -17,6 +17,7 @@ import orbitControls from "./scene/orbitControls";
 import createMapCubeLand from "./scene/objects/createMapCubeLand";
 import createSignal from "./scene/objects/createSignal";
 import wayCubeLand from "./scene/objects/wayCubeLand";
+import { createBus } from "./scene/objects/createBus";
 
 // CSS
 import style from "./style.module.css"
@@ -51,6 +52,8 @@ export default function CubeLand() {
 
     // Create Objects
     createMapCubeLand(loader, scene);
+
+    createBus(loader, scene)
     
     // Create Signals
     let signals: THREE.Object3D[] = [];

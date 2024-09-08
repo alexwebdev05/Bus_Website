@@ -34,33 +34,3 @@
     flex-direction: column;
     align-items: center;
 }
-
-/* Buttons */
-.stopButton {
-    padding: 0.5rem 1rem;
-
-    font-weight: 600;
-    cursor: pointer;
-
-    border: 2px solid rgba(165, 165, 165, 0.3);
-    border-radius: 0.5rem;
-    color: black;
-    background-color: white;
-    transition-duration: 0.3s;
-}
-
-.stopButton:hover {
-    color: white;
-    background-color: var(--gradient-color1);
-    border: 2px solid var(--gradient-color1);
-}
-
-.button1 {
-    background-color: var(--gradient-color1);
-    color: white;
-    border: 2px solid var(--gradient-color1);
-    border-radius: 0.5rem;
-    transition-duration: 0.3s;
-    cursor: pointer;
-    font-weight: 600;
-}

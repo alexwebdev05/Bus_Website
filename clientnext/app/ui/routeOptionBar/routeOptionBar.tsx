@@ -1,5 +1,6 @@
 "use client";
 
+import SButton from "./stopButton/sButton"
 import StopListComponent from "./stopListComponent/StopListComponent"
 import startHour from "./startHour"
 
@@ -31,6 +32,7 @@ const formatTime = ({hour, minute, second}: StopTimeProps) => {
 // Principal function
 export default function RouterOptionBar({color1, color2}: colorProps) {
 
+    const [isActive, setIsActive] = useState<number>(0);
     const [busTime, setBusTime] = useState<BusTimeState>({});
     const [stops, setStop] = useState<string[]>([]);
 
@@ -113,20 +115,8 @@ export default function RouterOptionBar({color1, color2}: colorProps) {
     }
 
     // Display arrive times
-    function stopChanger(number: number) {
-        
-    //     const visibleElement = document.getElementById(`stop${number}`);
-    //     console.log(visibleElement)
-    //     for (let i = 1; i <= 5; i++) {
-    //         const element = document.getElementById(`stop${i}`);
-    //         if (element) {
-    //             element.style.display = 'none';
-    //         }
-    //     }
-
-    //     if (visibleElement) {
-    //         visibleElement.style.display = 'flex';
-    //     }
+    function handleActivate(index: number) {
+        setIsActive(index);
     }
 
     // Button style
@@ -198,11 +188,14 @@ export default function RouterOptionBar({color1, color2}: colorProps) {
             {/* Buttons */}
             <div className={style.contentContainer}>
                 <div className={style.buttonContainer}>
-                    <button className={`${style.stopButton, style.button1}`} onClick={() => {stopChanger(1)}}>Parada 1</button>
-                    <button className={`${style.stopButton}`} id="button2" onClick={() => {stopChanger(2)}}>Parada 2</button>
-                    <button className={`${style.stopButton}`} id="button3" onClick={() => {stopChanger(3)}}>Parada 3</button>
-                    <button className={`${style.stopButton}`} id="button4" onClick={() => {stopChanger(4)}}>Parada 4</button>
-                    <button className={`${style.stopButton}`} id="button5" onClick={() => {stopChanger(5)}}>Parada 5</button>
+
+                    {Array.from({ length: 5  }, (_, index) => (
+                    <SButton
+                        key={`client-${index}`}
+                        index={index}
+                        onClick={handleActivate}
+                    />
+                    ))}
                 </div>
                 
 
@@ -211,11 +204,12 @@ export default function RouterOptionBar({color1, color2}: colorProps) {
 
                     {Array.from({ length: 5 }, (_, index) => (
                     <StopListComponent
+                        isActive={isActive === index} 
                         key={index}
                         stops={stops}
                         hour={getHour}
                         number={index}
-                    />
+                    />                
                     ))}
                 </section>
             </div>

@@ -1,48 +1,40 @@
-import Html5Websocket from 'html5-websocket';
-import ReconnectingWebSocket from 'reconnecting-websocket';
+import * as THREE from "three";
 
-export function busMovement(bus) {
+export default function busMovement(bus: THREE.Object3D) {
+    const ws = new WebSocket('ws://localhost:8080');
 
-    let host = 'localhost'
-    let port = '8080'
-    const options = { constructor: Html5Websocket }
-    const rec_ws = new ReconnectingWebSocket('ws://' + host + ':' + port + '/ws', undefined, options);
-    rec_ws.timeout = 1000;
+    ws.onopen = () => {
+        console.log('[Bus] Connected to WebSocket');
+    };
 
-    function animate() {
+    ws.onmessage = (event) => {
+        try {
+            const message = JSON.parse(event.data);
 
-        // Websocket
-        rec_ws.addEventListener('open', () => {
-            console.log('[Client] Connected to websocket.')
-            rec_ws.send('Client is getting bus position.')
-        })
+            if (message.type === 'busState' && message.data.position && message.data.quaternion) {
 
-        rec_ws.addEventListener('message', (event) => {
-            try {
-                const message = JSON.parse(event.data);
-                
-                if (message.type === 'busState') {
-                const position = message.data.position;
-                const quaternion = message.data.quaternion;
-            
-                bus.position.set(position[0], position[1], position[2]);
-                bus.quaternion.set(quaternion[0], quaternion[1], quaternion[2], quaternion[3]);
-                }
-            } catch (error) {
-                // console.error('Error parsing JSON:', error);
-                // console.error('Mensaje que causó el error:', event.data);
+                const receivedPosition = message.data.position
+                const receivedQuaternion = message.data.quaternion;
+                bus.position.set(receivedPosition[0], receivedPosition[1], receivedPosition[2]);
+                bus.quaternion.set(receivedQuaternion[0], receivedQuaternion[1], receivedQuaternion[2], receivedQuaternion[3]);
+
             }
-        })
 
-        rec_ws.addEventListener('close', () => {
-            console.log('[Client] Connection closed.')
-        })
-
-        rec_ws.onerror = (err) => {
-            if ( err.code == 'EHOSTDOWN' ) {
-            console.log('[Client] Error: Server is down.')
-            }
+        } catch (error) {
+            // console.error('Error parsing JSON:', error);
+            // console.error('Message that caused the error:', event.data);
         }
-    }
-    animate()
+    };
+
+    ws.onclose = () => {
+        console.log('[Bus] WebSocket connection closed');
+    };
+
+    ws.onerror = (error) => {
+        // console.error('[Client] WebSocket error:', error);
+    };
+
+    return () => {
+        ws.close();
+    };
 }

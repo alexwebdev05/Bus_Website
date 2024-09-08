@@ -1,17 +1,6 @@
-.stop1, .stop2, .stop3, .stop4, .stop5 {
+.container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    color: rgb(0, 0, 0);
-
-}
-
-.stop1 {
-    display: flex;
-}
-
-.stop2, .stop3, .stop4, .stop5 {
-    display: none;
 }
 
 .timesContainer {
@@ -22,4 +11,12 @@
 
 .awaitTime {
     text-align: center;
+}
+
+.active {
+    display: flex;
+}
+
+.inactive {
+    display: none;
 }
