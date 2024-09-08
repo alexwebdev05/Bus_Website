@@ -15,8 +15,17 @@
 
 .active {
     display: flex;
+    margin-bottom: 0.5rem;
 }
 
 .inactive {
+    display: none;
+}
+
+.timeActive {
+    display: flex;
+}
+
+.timeInactive {
     display: none;
 }

@@ -11,7 +11,16 @@
     transition-duration: 0.3s;
 }
 
-.stopButton:hover {
+.stopButtonColored, .stopButton:hover {
+    padding: 0.5rem 1rem;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    border: 2px solid rgba(165, 165, 165, 0.3);
+    border-radius: 0.5rem;
+    transition-duration: 0.3s;
+
     color: white;
     background-color: var(--gradient-color1);
     border: 2px solid var(--gradient-color1);

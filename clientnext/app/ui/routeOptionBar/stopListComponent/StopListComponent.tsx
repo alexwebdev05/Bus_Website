@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from 'react';
 import style from "./style.module.css";
 
 interface timesProps {
-    stops?: string[];
-    hour?: (number: number, arrival: number) => string;
+    stops: string[][];
+    time: (number: number, arrival: number) => string;
     number: number;
     isActive: boolean;
+    timeActive?: boolean;
 }
 
-export default function StopListComponent({ stops = [], hour, number, isActive }: timesProps) {
-    const [showTime, setShowTime] = useState(true);
+export default function StopListComponent({ stops, time, number, isActive, timeActive }: timesProps) {
 
-    useEffect(() => {
-        setShowTime(number !== 0);
-    }, [number]);
+    const currentStopTimes = stops[number] || [];
 
-    
+
+    const firstTimeValue = currentStopTimes[0] ? time(number + 1, 0) : '';
+    const isFirstTimeVisible = parseFloat(firstTimeValue) >= 0;
 
     return (
         <div className={`${style.container} ${isActive ? style.active : style.inactive}`}>
             <h2>Next arrivals</h2>
             <section className={style.timesContainer}>
                 <div className={style.awaitTime}>
-                    <p>Hour {number}</p>
-                    {stops.length === 0 ? (
+                    <p>Hour</p>
+                    {currentStopTimes.length === 0 ? (
                         <>
                             <p className={`firstTime${number}`}>Waiting for start time...</p>
                             <p>Waiting for start time...</p>
@@ -33,19 +32,20 @@ export default function StopListComponent({ stops = [], hour, number, isActive }
                         </>
                     ) : (
                         <>
-                            <p className={`firstTime${number}`}>{stops[0]}</p>
-                            <p>{stops[1]}</p>
-                            <p>{stops[2]}</p>
-                            <p>{stops[3]}</p>
-                            <p>{stops[4]}</p>
+                            {currentStopTimes.map((time, index) => {
+                                const timeValue = time;
+                                return (index === 0 ? isFirstTimeVisible : true) && <p key={index}>{timeValue}</p>;
+                            })}
                         </>
                     )}
                 </div>
                 <div className={style.awaitTime}>
                     <p>Time</p>
-                    {stops.length === 0 ? (
+                    {currentStopTimes.length === 0 ? (
                         <>
-                            <p className={`firstTime${number}`}>Waiting for start time...</p>
+                            <p style={{ display: timeActive ? 'block' : 'none' }}>
+                                Waiting for start time...
+                            </p>
                             <p>Waiting for start time...</p>
                             <p>Waiting for start time...</p>
                             <p>Waiting for start time...</p>
@@ -53,15 +53,11 @@ export default function StopListComponent({ stops = [], hour, number, isActive }
                         </>
                     ) : (
                         <>
-                            {hour && (
-                                <>
-                                    <p className={`firstTime${number}`}>{hour(number + 1, 0)}</p>
-                                    <p>{hour(number + 1, 2)}</p>
-                                    <p>{hour(number + 1, 4)}</p>
-                                    <p>{hour(number + 1, 6)}</p>
-                                    <p>{hour(number + 1, 8)}</p>
-                                </>
-                            )}
+                            {currentStopTimes.map((_, index) => {
+                                const timeValue = time(number + 1, index * 2);
+                                const timeNumber = parseFloat(timeValue);
+                                return (index === 0 ? isFirstTimeVisible : timeNumber >= 0) ? <p key={index}>{timeValue}</p> : null;
+                            })}
                         </>
                     )}
                 </div>

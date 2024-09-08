@@ -3,12 +3,13 @@
 import style from "./style.module.css";
 
 interface ClientComponentProps {
+  isActive: boolean;
   index: number;
   onClick: (index: number) => void;
 }
 
-export default function SButton({ index, onClick }: ClientComponentProps) {
+export default function SButton({ isActive, index, onClick }: ClientComponentProps) {
   return (
-    <button className={style.stopButton} onClick={() => onClick(index)}>Stop {index + 1}</button>
+    <button className={isActive ? style.stopButtonColored : style.stopButton} onClick={() => onClick(index)}>Stop {index + 1}</button>
   );
 }
