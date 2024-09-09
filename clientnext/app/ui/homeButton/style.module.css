@@ -1,0 +1,28 @@
+.container {
+    position: absolute;
+    top: 2rem;
+    left: 0;
+
+    padding: 0.25rem 0.5rem;
+    text-decoration: none;
+    
+    background-color: white;
+    transition: 0.25s;
+}
+
+.container::after {
+    content: "";
+    position: absolute; /* Posicionamiento absoluto respecto al contenedor */
+  top: 50%; /* Centra verticalmente */
+  right: -1rem; /* Alinea a la derecha fuera del contenedor */
+  width: 1rem; /* Ancho del cuadrado */
+  height: 100%; /* Altura del cuadrado */
+  background-color: coral; /* Color de fondo del cuadrado */
+  transform: translateY(-50%); /* Centrado vertical ajustado */
+}
+
+.container:hover {
+    color: white;
+    background-color: var(--main);
+    filter: drop-shadow(0px 0px 8px var(--main));
+}
