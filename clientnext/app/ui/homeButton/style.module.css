@@ -3,26 +3,22 @@
     top: 2rem;
     left: 0;
 
-    padding: 0.25rem 0.5rem;
+    padding: 0.5rem 1rem;
     text-decoration: none;
+    font-weight: 800;
+    border-top-right-radius: 0.5rem;
+    border-end-end-radius: 0.5rem;
     
-    background-color: white;
+    color: white;
+    border: 2px solid white;
+    border-left: transparent;
     transition: 0.25s;
-}
-
-.container::after {
-    content: "";
-    position: absolute; /* Posicionamiento absoluto respecto al contenedor */
-  top: 50%; /* Centra verticalmente */
-  right: -1rem; /* Alinea a la derecha fuera del contenedor */
-  width: 1rem; /* Ancho del cuadrado */
-  height: 100%; /* Altura del cuadrado */
-  background-color: coral; /* Color de fondo del cuadrado */
-  transform: translateY(-50%); /* Centrado vertical ajustado */
 }
 
 .container:hover {
     color: white;
+    border: 2px solid var(--main);
+    border-left: transparent;
     background-color: var(--main);
     filter: drop-shadow(0px 0px 8px var(--main));
-}
+} 
