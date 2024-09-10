@@ -16,6 +16,7 @@
     "helmet": "^7.1.0",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
+    "myapp": "file:",
     "three": "^0.165.0",
     "uuid": "^9.0.1",
     "websocket": "^1.0.35",

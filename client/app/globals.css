@@ -1,0 +1,19 @@
+:root {
+    --main-color: blue;
+    --background-color1: #ffffff;
+    --background-color2: #e8e6ec;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+main {
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
