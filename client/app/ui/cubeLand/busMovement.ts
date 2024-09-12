@@ -5,15 +5,14 @@ export default function busMovement(bus: THREE.Object3D) {
 
     ws.onopen = () => {
         console.log('[Bus] Connected to WebSocket (position)');
-        setInterval(() => {
-            ws.send('getPositionCubeLand');
-        }, 10)
+        // setInterval(() => {
+        //     ws.send('getPositionCubeLand');
+        // }, 10)
+        ws.send('getPositionCubeLand');
         
     };
 
     ws.onmessage = (event) => {
-
-        
 
         const message = JSON.parse(event.data);
 
@@ -21,9 +20,10 @@ export default function busMovement(bus: THREE.Object3D) {
 
         if (message.name === 'position' && message.data) {
             const receivedPosition = message.data.position
+            console.log(receivedPosition)
             const receivedQuaternion = message.data.quaternion;
             bus.position.set(receivedPosition.x, receivedPosition.y, receivedPosition.z);
-            bus.quaternion.set(receivedQuaternion[0], receivedQuaternion[1], receivedQuaternion[2], receivedQuaternion[3]);
+            bus.quaternion.set(receivedQuaternion.x, receivedQuaternion.y, receivedQuaternion.z, receivedQuaternion.w);
 
         }
     };
