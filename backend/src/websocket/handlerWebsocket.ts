@@ -1,23 +1,23 @@
 import WebSocket from "ws";
 import { cubeLandPosition } from "./getPosition/cubeLand/index";
 
-export function handlerWebsocket(ws: WebSocket) {
+export function handlerWebsocket(ws: WebSocket, percentage: any) {
     console.log("[Client] New connection");
 
     // Get message
     ws.on('message', (message: WebSocket.RawData) => {
         const messageString = message.toString();
-    
+        console.log(percentage)
         // Send Position
         if (messageString === "getPositionCubeLand") {
             const position = cubeLandPosition()
-
+            //console.log(position)
             ws.send(JSON.stringify({
-                type: position.type,
+                type: "Type",
                 data: {
-                    x:  position.data.x,
-                    y:  position.data.y,
-                    z:  position.data.z
+                    x:  "x",
+                    y:  "y",
+                    z:  "z"
                 }
             }));
         } else {

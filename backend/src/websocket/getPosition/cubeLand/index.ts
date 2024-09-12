@@ -1,6 +1,10 @@
-export function cubeLandPosition() {
+import * as THREE from "three"
 
-    
+import { wayCubeLand } from "./wayCubeland";
+
+let curve = wayCubeLand()
+
+export async function cubeLandPosition() {
 
     // Send position
     return {

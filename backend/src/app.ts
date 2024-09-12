@@ -2,8 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import routes from './routes';
-
-import http from 'http';
+import { Server } from 'http';
 import WebSocket from 'ws';
 import { handlerWebsocket } from './websocket/handlerWebsocket';
 
@@ -18,25 +17,20 @@ app.use(express.json());
 app.use('/', routes);
 
 // Websocket
-const websocket = http.createServer(app);
+function myWebsocket(server: Server, percentage: number) {
+  const wss = new WebSocket.Server({ noServer: true });
 
-const wss = new WebSocket.Server({ noServer: true });
+  server.on('upgrade', (request, socket, head) => {
+    const upgradeHeader = request.headers['upgrade'];
 
-websocket.on('upgrade', (request, socket, head) => {
-  const upgradeHeader = request.headers['upgrade'];
-
-  if (upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
-    wss.handleUpgrade(request, socket, head, (ws) => {
-        handlerWebsocket(ws);
-    });
-  } else {
-    socket.destroy();
-  }
+    if (upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
+      wss.handleUpgrade(request, socket, head, (ws) => {
+          handlerWebsocket(ws, percentage);
+      });
+    } else {
+      socket.destroy();
+    }
 });
+}
 
-const PORT = process.env.PORT || 3737;
-websocket.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-})
-
-export default app;
+export default myWebsocket;
