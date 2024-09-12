@@ -1,10 +1,7 @@
 import { handleWebSocket } from './websocket';
 
-import { setDefault } from './setDefault'; 
-
-setDefault()
-
 export default {
+	
 	async fetch(request, env, ctx): Promise<Response> {
 
 		const upgradeHeader = request.headers.get("Upgrade");
@@ -16,3 +13,4 @@ export default {
 		return new Response('Hello, this is the worker of https://github.com/alexwebdev05/Bus_Website.git project.');
 	},
 } satisfies ExportedHandler<Env>;
+

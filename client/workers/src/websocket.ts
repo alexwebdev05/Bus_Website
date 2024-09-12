@@ -1,4 +1,9 @@
-import { cubeLandPosition } from "./getPosition/cubeLand/index"
+import { cubeLandPosition } from "./getPosition/cubeLand/index";
+
+import { positionSetter } from "./getPosition/cubeLand/positionSetter";
+
+const percentage = positionSetter();
+console.log(percentage);
 
 export function handleWebSocket(request: Request): Response {
 
