@@ -53,12 +53,16 @@ export function handlerWebsocket(ws: WebSocket) {
             }
 
             ws.send(JSON.stringify({
-                name: "Position",
+                name: "position",
                 data: {
-                    x:  busState.position.x,
-                    y:  busState.position.y,
-                    z:  busState.position.z
-                }
+                    position: {
+                        x:  busState.position.x,
+                        y:  busState.position.y,
+                        z:  busState.position.z 
+                    },
+                    quaternion: busState.quaternion
+                    
+            }
             }));
         } else {
             console.log(`Invalid message ${messageString}`);

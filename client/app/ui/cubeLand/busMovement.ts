@@ -1,28 +1,30 @@
 import * as THREE from "three";
 
 export default function busMovement(bus: THREE.Object3D) {
-    const ws = new WebSocket('ws://localhost:8080');
+    const ws = new WebSocket('ws://localhost:3000');
 
     ws.onopen = () => {
-        console.log('[Bus] Connected to WebSocket');
+        console.log('[Bus] Connected to WebSocket (position)');
+        setInterval(() => {
+            ws.send('getPositionCubeLand');
+        }, 10)
+        
     };
 
     ws.onmessage = (event) => {
-        try {
-            const message = JSON.parse(event.data);
 
-            if (message.type === 'busState' && message.data.position && message.data.quaternion) {
+        
 
-                const receivedPosition = message.data.position
-                const receivedQuaternion = message.data.quaternion;
-                bus.position.set(receivedPosition[0], receivedPosition[1], receivedPosition[2]);
-                bus.quaternion.set(receivedQuaternion[0], receivedQuaternion[1], receivedQuaternion[2], receivedQuaternion[3]);
+        const message = JSON.parse(event.data);
 
-            }
+        console.log(message);
 
-        } catch (error) {
-            // console.error('Error parsing JSON:', error);
-            // console.error('Message that caused the error:', event.data);
+        if (message.name === 'position' && message.data) {
+            const receivedPosition = message.data.position
+            const receivedQuaternion = message.data.quaternion;
+            bus.position.set(receivedPosition.x, receivedPosition.y, receivedPosition.z);
+            bus.quaternion.set(receivedQuaternion[0], receivedQuaternion[1], receivedQuaternion[2], receivedQuaternion[3]);
+
         }
     };
 
