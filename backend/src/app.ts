@@ -17,7 +17,7 @@ app.use(express.json());
 app.use('/', routes);
 
 // Websocket
-function myWebsocket(server: Server, percentage: number) {
+function myWebsocket(server: Server) {
   const wss = new WebSocket.Server({ noServer: true });
 
   server.on('upgrade', (request, socket, head) => {
@@ -25,7 +25,7 @@ function myWebsocket(server: Server, percentage: number) {
 
     if (upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
       wss.handleUpgrade(request, socket, head, (ws) => {
-          handlerWebsocket(ws, percentage);
+          handlerWebsocket(ws);
       });
     } else {
       socket.destroy();

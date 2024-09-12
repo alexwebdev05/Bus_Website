@@ -1,23 +1,63 @@
-import WebSocket from "ws";
-import { cubeLandPosition } from "./getPosition/cubeLand/index";
+import * as THREE from "three"
 
-export function handlerWebsocket(ws: WebSocket, percentage: any) {
+import WebSocket from "ws";
+import { wayCubeLand } from "./getPosition/cubeLand/wayCubeland";
+
+export function handlerWebsocket(ws: WebSocket) {
     console.log("[Client] New connection");
+
+    // Percentage
+    const TIME = 120
+    const startTime = new Date().getTime();
+    const stopTime = startTime + TIME * 1000;
+    var percentage: number;
+
+    const intervalId = setInterval(() => {
+        percentage = clock();
+
+        if (percentage <= 0) {
+            clearInterval(intervalId);
+    }
+    }, 10);
+
+    function clock(): number {
+        let actualTime = new Date().getTime();
+        let leftover = stopTime - actualTime;
+
+        let percentage = 1 - leftover / (TIME * 1000);
+        return Math.min(Math.max(percentage, 0), 100);
+    }
+
+    const busState = {
+        position: new THREE.Vector3(),
+        quaternion: new THREE.Quaternion(),
+    };
 
     // Get message
     ws.on('message', (message: WebSocket.RawData) => {
         const messageString = message.toString();
-        console.log(percentage)
+
         // Send Position
         if (messageString === "getPositionCubeLand") {
-            const position = cubeLandPosition()
-            //console.log(position)
+            // Insert data        
+            const point = wayCubeLand().getPointAt(percentage);
+            const tangent = wayCubeLand().getTangentAt(percentage);
+
+            if (point && tangent) {
+                busState.position.set(point.x, point.y, point.z);
+            
+                const quaternion = new THREE.Quaternion();
+                quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), tangent);
+            
+                busState.quaternion.copy(quaternion);
+            }
+
             ws.send(JSON.stringify({
-                type: "Type",
+                name: "Position",
                 data: {
-                    x:  "x",
-                    y:  "y",
-                    z:  "z"
+                    x:  busState.position.x,
+                    y:  busState.position.y,
+                    z:  busState.position.z
                 }
             }));
         } else {
@@ -25,58 +65,3 @@ export function handlerWebsocket(ws: WebSocket, percentage: any) {
         }
     });
 }
-
-//import { positionSetter } from "./getPosition/cubeLand/positionSetter";
-
-// const percentage = positionSetter();
-// console.log(percentage);
-
-// export function handleWebSocket(request: Request): Response {
-
-//     const [client, server] = Object.values(new WebSocketPair());
-
-//     // Accept connection
-//     server.accept();
-//     console.log("[Client] New connection")
-
-//     server.addEventListener("message", (event) => {
-//         const message = event.data
-//         console.log("[Client] Message: ", message)
-
-//         // Send position
-//         if (message === "getPositionCubeLand") {
-//             const position = cubeLandPosition()
-//             server.send(JSON.stringify({
-//                 type: position.type,
-//                 data: {
-//                     x:  position.data.x,
-//                     y:  position.data.y,
-//                     z:  position.data.z
-//                 }
-//             }));
-//         // Send hour
-//         } else if ( message === "getTimes" ) {
-//             server.send(JSON.stringify({
-//                 type: "times",
-//                 data: {
-//                     soon: "Available soon"
-//                 }
-//             }));
-//         // Over parametres request
-//         } else {
-//             server.send("Invalid request");
-//         }
-//     });
-
-//     // Client disconnected
-//     server.addEventListener("close", (event) => {
-//         console.log("[Client] Disconnected", event.code, event.reason);
-//     });
-
-//     // Error report
-//     server.addEventListener("error", (event) => {
-//         console.error("Error en WebSocket:", event.error);
-//     });
-
-//     return new Response(null, { status: 101, webSocket: client });
-// }
