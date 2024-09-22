@@ -20,18 +20,13 @@ interface StopTimeProps {
     second: number;
 }
 
-interface Stop {
-    number: number;
-    isActive: boolean;
-}
-
 interface BusTimeState {
     [key: string]: StopTimeProps | undefined;
 }
 
 const formatTime = ({ hour, minute, second }: StopTimeProps) => {
-    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`;
-}
+    return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}:${second.toString().padStart(2, "0")}`;
+};
 
 // Principal function
 export default function RouterOptionBar({ color1, color2 }: colorProps) {
@@ -58,8 +53,7 @@ export default function RouterOptionBar({ color1, color2 }: colorProps) {
         setStop(newStops);
     }, [busTime]);
 
-    // Functions
-    function getHour(stop: StopTimeProps, number: number): string[] {
+    function getHour(stop: StopTimeProps): string[] {
         return [
             formatTime(stop),
             formatTime({ ...stop, minute: stop.minute + 2 }),
@@ -68,13 +62,13 @@ export default function RouterOptionBar({ color1, color2 }: colorProps) {
             formatTime({ ...stop, minute: stop.minute + 8 })
         ];
     }
-    
 
     function getTime(number: number, arrival: number): string {
+
         const fechaActual = new Date();
 
         const stop = busTime[`stop${number}`];
-        if (!busTime || !stop || typeof stop.minute === 'undefined') {
+        if (!busTime || !stop || typeof stop.minute === "undefined") {
             return "Hora no disponible";;
         }
 
@@ -86,33 +80,33 @@ export default function RouterOptionBar({ color1, color2 }: colorProps) {
         let restSeconds: number = stop.second - segundos;
 
         if ( restSeconds < 0 ) {
-            restMinutes -= 1
-            restSeconds += 60
+            restMinutes -= 1;
+            restSeconds += 60;
         }
 
         if (restMinutes < 0) {
             const elements = document.getElementsByClassName(`firstTime${number - 1}`);
 
             for (let i = 0; i < elements.length; i++) {
-                (elements[i] as HTMLElement).style.display = 'none';
+                (elements[i] as HTMLElement).style.display = "none";
             }
         }
 
-        if ( stop.minute == fechaActual.getMinutes() && stop.second == fechaActual.getSeconds()) {
-            resetDisplayF(number)
+        if ( stop.minute === fechaActual.getMinutes() && stop.second === fechaActual.getSeconds()) {
+            resetDisplayF(number);
         }
 
 
-        const formattedSeconds = restSeconds.toString().padStart(2, '0');
-    
-        return `${restMinutes}:${formattedSeconds}`
+        const formattedSeconds = restSeconds.toString().padStart(2, "0");
+
+        return `${restMinutes}:${formattedSeconds}`;
     }
 
-        function resetDisplayF(index: number) {
+    function resetDisplayF(index: number) {
         for (let i = 0; i < 5; i++) {
             const elements = document.getElementsByClassName(`firstTime${i}`);
             for (let j = 0; j < elements.length; j++) {
-                setTimeActive(index)
+                setTimeActive(index);
             }
         }
     }

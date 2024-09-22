@@ -1,51 +1,47 @@
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import routes from './routes';
-import { Server } from 'http';
-import WebSocket from 'ws';
-import { handlerWebsocket } from './websocket/handlerWebsocket';
-import { percentageClock } from './percentageClock';
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import routes from "./routes";
+import { Server } from "http";
+import WebSocket from "ws";
+import { handlerWebsocket } from "./websocket/handlerWebsocket";
+import { percentageClock } from "./websocket/getPosition/cubeLand/percentageClock";
 
 const app = express();
 
-// Middlewares
 app.use(cors());
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false
+}));
 app.use(express.json());
 
-// Rutas
-app.use('/', routes);
+// Routes
+app.use("/", routes);
 
-// Función para configurar WebSocket
+// Websocket definer
 function myWebsocket(server: Server) {
-  // Crear el servidor WebSocket
-  const wss = new WebSocket.Server({ noServer: true });
 
-  // Percentage calculator
-  percentageClock()
+    const wss = new WebSocket.Server({ noServer: true });
 
-  // Manejar la actualización de la conexión de WebSocket
-  server.on('upgrade', (request, socket, head) => {
-    // Validar que la solicitud sea de tipo WebSocket
-    const upgradeHeader = request.headers['upgrade'];
+    percentageClock();
 
-    if (upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
-      // Manejar la actualización a WebSocket
-      wss.handleUpgrade(request, socket, head, (ws) => {
-        // Pasar el WebSocket al manejador
+    // Websocket conexion manager
+    server.on("upgrade", (request, socket, head) => {
 
-        handlerWebsocket(ws);
-      });
-    } else {
-      socket.destroy(); // Destruir la conexión si no es WebSocket
-    }
-  });
+        const upgradeHeader = request.headers["upgrade"];
 
-  // Manejar eventos del WebSocket Server (Opcional)
-  wss.on('error', (error) => {
-    console.error(`WebSocket error: ${error.message}`);
-  });
+        if (upgradeHeader && upgradeHeader.toLowerCase() !== "websocket") {
+            socket.destroy();
+        }
+        wss.handleUpgrade(request, socket, head, (ws) => {
+            handlerWebsocket(ws);
+        });
+    });
+
+    // Errors
+    wss.on("error", (error) => {
+        console.error(`WebSocket error: ${error.message}`);
+    });
 }
 
 export default myWebsocket;

@@ -1,21 +1,23 @@
 import * as THREE from "three";
 import WebSocket from "ws";
 import { wayCubeLand } from "./getPosition/cubeLand/wayCubeland";
+import { getTime } from "./getTimes/getTimes";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // http request manager
 export function handlerWebsocket(ws: WebSocket) {
     console.log("[Client] New connection");
-    var percentage = 0.3
     const busState = {
         position: new THREE.Vector3(),
         quaternion: new THREE.Quaternion(),
     };
 
-    // Función para actualizar la posición y el cuaternión del bus
+    // Update position and quaternion
     function updatePointAndTangent(percentage: number) {
         const point = wayCubeLand().getPointAt(percentage);
         const tangent = wayCubeLand().getTangentAt(percentage);
-        
 
         if (point && tangent) {
             busState.position.set(point.x, point.y, point.z);
@@ -46,38 +48,39 @@ export function handlerWebsocket(ws: WebSocket) {
         }
     }
 
-    // Manejar mensajes del cliente WebSocket
-    ws.on('message', (message: WebSocket.RawData) => {
+    // Client message manager
+    ws.on("message", (message: WebSocket.RawData) => {
         const messageString = message.toString();
 
-        // Verificar si el cliente solicitó la posición
+        // Position request
         if (messageString === "getPositionCubeLand") {
-            const positionWs = new WebSocket('ws://localhost:3002');
-
-            positionWs.onopen = () => {
-                
-            };
+            const positionWs = new WebSocket(`ws://localhost:${process.env.PORT_PERCENTAGE}`);
 
             positionWs.onmessage = (event) => {
                 try {
-                    const dataString = typeof event.data === 'string' ? event.data : event.data.toString();
-                    const message = JSON.parse(dataString);  // Correct parsing after conversion
+                    const dataString = typeof event.data === "string" ? event.data : event.data.toString();
+                    const message = JSON.parse(dataString);
                     updatePointAndTangent(message.percentage);
-                    // Optionally: Do something with the received message
-                    
                 } catch (error) {
                     console.error("Error parsing JSON message from secondary WebSocket:", error);
                 }
-                
-            }
-            
 
+            };
+
+        // Times request
+        } else if (messageString === "getTimesCubeLand") {
+
+            ws.send(JSON.stringify(
+                getTime()
+            ));
+
+        // Invalid message
         } else {
             console.log(`Invalid message ${messageString}`);
         }
     });
 
-    ws.on('close', () => {
-        console.log('WebSocket closed');
+    ws.on("close", () => {
+        console.log("WebSocket closed");
     });
 }

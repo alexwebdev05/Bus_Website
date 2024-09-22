@@ -13,7 +13,7 @@ export default function StopListComponent({ stops, time, number, isActive, timeA
     const currentStopTimes = stops[number] || [];
 
 
-    const firstTimeValue = currentStopTimes[0] ? time(number + 1, 0) : '';
+    const firstTimeValue = currentStopTimes[0] ? time(number + 1, 0) : "";
     const isFirstTimeVisible = parseFloat(firstTimeValue) >= 0;
 
     return (
@@ -43,7 +43,7 @@ export default function StopListComponent({ stops, time, number, isActive, timeA
                     <p>Time</p>
                     {currentStopTimes.length === 0 ? (
                         <>
-                            <p style={{ display: timeActive ? 'block' : 'none' }}>
+                            <p style={{ display: timeActive ? "block" : "none" }}>
                                 Waiting for start time...
                             </p>
                             <p>Waiting for start time...</p>

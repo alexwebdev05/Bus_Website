@@ -15,7 +15,7 @@ export function wayCubeLand() {
         new THREE.Vector3(1.68, 0.35, 0.78),
         new THREE.Vector3(1.96, 0.35, 0.78),
         new THREE.Vector3(2.085, 0.35, 0.66),
-  
+
         new THREE.Vector3(2.08, 0.35, -0.66),
         new THREE.Vector3(1.96, 0.35, -0.78),
         new THREE.Vector3(1.16, 0.35, -0.78),
@@ -26,7 +26,7 @@ export function wayCubeLand() {
         new THREE.Vector3(0.26, 0.35, -1.94),
         new THREE.Vector3(0.26, 0.35, -2.48),
         new THREE.Vector3(0.15, 0.35, -2.6),
-  
+
         new THREE.Vector3(-0.93, 0.35, -2.6),
         new THREE.Vector3(-1.05, 0.35, -2.47),
         new THREE.Vector3(-1.17, 0.35, -2.34),
@@ -37,7 +37,7 @@ export function wayCubeLand() {
         new THREE.Vector3(-1.67, 0.35, -0.26),
         new THREE.Vector3(-1.55, 0.35, -0.375),
         new THREE.Vector3(-1.55, 0.35, -0.66),
-        
+
         new THREE.Vector3(-1.44, 0.35, -0.775),
         new THREE.Vector3(-0.13, 0.35, -0.775),
         new THREE.Vector3(-0, 0.35, -0.62),
@@ -47,7 +47,7 @@ export function wayCubeLand() {
         new THREE.Vector3(-0.775, 0.35, 1.43),
         new THREE.Vector3(-0.775, 0.35, 2.22),
         new THREE.Vector3(-0.66, 0.35, 2.35),
-    ], true, 'catmullrom', 0.5);
+    ], true, "catmullrom", 0.5);
 
     curve.tension = 0.2;
 

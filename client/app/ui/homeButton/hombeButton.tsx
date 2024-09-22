@@ -1,5 +1,5 @@
 import Link from "next/link";
-import style from "./style.module.css"
+import style from "./style.module.css";
 
 interface buttonProps {
     text: string;
@@ -16,5 +16,5 @@ export default function HomeButton({text,url, backgroundColor}: buttonProps) {
         >
             {text}
         </Link>
-    )
+    );
 }

@@ -1,4 +1,4 @@
-import style from "./style.module.css"
+import style from "./style.module.css";
 
 interface footerProps {
     footerColor: string;
@@ -6,6 +6,6 @@ interface footerProps {
 
 export default function Footer({footerColor}: footerProps) {
     return (
-        <div className={style.footerContainer} style={{'--footer-color': `var(${footerColor})`} as React.CSSProperties}>Footer</div>
-    )
+        <div className={style.footerContainer} style={{"--footer-color": `var(${footerColor})`} as React.CSSProperties}>Footer</div>
+    );
 }
