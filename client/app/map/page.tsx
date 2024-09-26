@@ -1,10 +1,10 @@
-import style from "./style.module.css"
+import style from "./style.module.css";
 
 // Ui
-import RouterOptionBar from "../ui/routeOptionBar/routeOptionBar"
-import CubeLand from "../ui/cubeLand/cubeLand"
-import HomeButton from "../ui/homeButton/hombeButton"
-import DotBackground from "../ui/dotBackground/DotBackground"
+import RouterOptionBar from "../ui/routeOptionBar/routeOptionBar";
+import CubeLand from "../ui/cubeLand/cubeLand";
+import HomeButton from "../ui/homeButton/hombeButton";
+import DotBackground from "../ui/dotBackground/DotBackground";
 
 export default function Map() {
     return (
@@ -14,5 +14,5 @@ export default function Map() {
             <CubeLand />
             <DotBackground backgroundColor="--main-color"/>
         </section>
-    )
+    );
 }

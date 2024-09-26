@@ -1,7 +1,9 @@
 import * as THREE from "three";
 
-// Curve
-export default function wayCubeLand(scene: THREE.Scene) {
+export function wayCubeLand() {
+    const scene = new THREE.Scene();
+
+    // Curve way
     const curve = new THREE.CatmullRomCurve3([
         new THREE.Vector3(0.66, 0.35, 2.35),
         new THREE.Vector3(0.79, 0.35, 2.22),
@@ -48,8 +50,11 @@ export default function wayCubeLand(scene: THREE.Scene) {
     ], true, "catmullrom", 0.5);
 
     curve.tension = 0.2;
-    const points = curve.getPoints(120);
+
+    const points = curve.getPoints(220);
+
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
     const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
 
     // create the final object to add to the scene
