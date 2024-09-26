@@ -3,29 +3,12 @@
     flex-direction: column;
 }
 
-.timesContainer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.awaitTime {
-    text-align: center;
-}
-
-.active {
-    display: flex;
-    margin-bottom: 0.5rem;
-}
-
-.inactive {
-    display: none;
-}
-
-.timeActive {
+.contentContainer {
     display: flex;
 }
 
-.timeInactive {
-    display: none;
+
+.margin {
+    color: black;
+    padding: 1rem;
 }
